@@ -9,9 +9,9 @@ and open the template in the editor.
 */
 
 body{
-    background-color: rgba(255, 185, 0, 0.6);
+    background-color: rgba(255, 185, 0, 0.3);
     color: #00004d;
-    text-align: center;
+    text-align: justify;
     font-size: 90%;
     font-family: Helvetica Neue,Helvetica,Arial,sans-serif; 
 }
@@ -32,17 +32,20 @@ h3{
 }
 
 .summary{
+    display: block;
     text-align: left;
     list-style-type: none;
     margin-left: 10px;
     padding-left: 10px;
 }
 
-.log{
-    position: absolute;
-    margin-top: 1%;
-    margin-left: 45%;
-    margin-right: 45%;
+p{
+    border-style: dashed;
+    border-color: darkgreen;
+    border-width: 1px;
+    background-color: rgba(0, 220, 120, 0.1);
+    color: darkgreen;
+    padding: 1%;
 }
 
 table{
@@ -57,7 +60,7 @@ table{
 }
 
 tr, th, td{
-    border: solid;
+    border: dashed;
     border-width: 1px;
     border-color: black;
     margin: 0;
@@ -67,31 +70,34 @@ tr, th, td{
     font-weight: 500;
 }
 
-.columns{
+.columns, .columns th{
+    border: solid;
+    border-width: 1px;
+    border-color: black;
     background-color: rgba(0, 100, 70, 1);
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 1);
 }
 
 .dispari{
-    background-color: rgba(0, 220, 120, 1);
-    color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(0, 220, 120, 0.7);
+    color: rgba(255, 255, 255, 1);
 }
 
 .pari{
     background-color: rgba(0, 200, 150, 0.1);
-    color: rgba(0, 100, 255, 1);
+    color: rgba(0, 190, 100, 1);
 }
 
 a:link{
     font-family: Tahoma,Verdana,Segoe,sans-serif;
     text-decoration: none;
-    color: rgba(50, 50, 255, 1);
+    color: darkgreen;
 }
 
 a:visited{
     font-family: Tahoma,Verdana,Segoe,sans-serif; 
     font-style: italic;
-    color: rgba(200, 50, 50, 1);
+    color: darkblue;
 }
 
 a:hover, a:active, a:focus{
@@ -99,24 +105,25 @@ a:hover, a:active, a:focus{
 }
 
 ul{
-    padding: 0;
-    margin-right: 85%;
+    list-style-type: none;
+    margin-left: 0;
+    padding-left: 0;
 }
 
 li{
-    margin-left: 0%;
-    margin-right: 20%;
-    padding: 1px;
+    margin-left: 20%;
+    margin-right: -140px;
+    padding: 5px;
     border-style: solid;
-    border-width: 1px;  
+    border-width: 1px;
     border-top: none;
-    background-color: rgba(255, 185, 0, 0.9);
-    float: top;
+    background-color: rgba(255, 185, 0, 0.5);
 }
 
 li:hover{
-    padding: 5%;
-    margin-right: 0%;
+    padding: 5px;
+    padding-left: 5px;
+    margin-right: -180px;
     border-top: 1px solid black;
     font-weight: bold;
 }
@@ -126,18 +133,21 @@ li:first-child {
 }
 
 label{
-    background-color: rgba(255, 185, 0, 0.9);
+    background-color: rgba(255, 185, 0, 0.2);
+    color: rgba(200, 150, 0, 1);
     margin-left: 40%;
     margin-right: 1%;
     margin-bottom: 2%;
-    padding-left: 0;
-    padding-right: 0;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 4px;
     float: left;
     clear: left;
     text-align: right;
     font-weight: bold;
     font-family: Tahoma,Verdana,Segoe,sans-serif;
 }
+
 input {
     display: inline-block;
     margin-right: 38%;
@@ -157,7 +167,11 @@ textarea{
 input:focus, textarea:focus{
     border: solid;
     border-width: 3px;
-    border-color: rgba(200, 185, 50, 0.6);
+    border-color: rgba(0, 120, 20, 0.8);
+    background-color: rgba(0, 220, 120, 0.3);
+    color: rgba(0, 100, 0, 1);
+    font-weight: bold;
+    text-align: left;
 }
 
 button{
@@ -166,11 +180,59 @@ button{
     margin-top: 0%;
     width: 10%;
     padding-top: 1%;
-    padding-bottom: 1%;
-    background-color: green;
-    border-style: solid;
-    border-color: darkgreen;
-    color: rgba(255, 255, 255, 1);
+    padding-bottom: 1%; 
+    border-style: groove;
+    border-color: darkgray;
+    color: black;
     font-weight: bold;
     font-size: 90%;
+}
+
+button:hover{
+    border-width: 3px;
+    border-style: ridge;
+    border-color: darkgreen;
+    background-color: rgba(0, 120, 20, 0.8);
+    color: rgba(255, 255, 255, 1);
+}
+
+@media only screen  and (min-width: 1024px){
+    .summary{
+        float: left;
+    }
+    
+    p{
+        margin-left: 30%;
+        margin-right: 30%;
+        margin-bottom: 50px;
+    }
+}
+
+@media only screen  and (min-width: 480px) and (max-width: 1024px){
+    .summary{
+        float: left;
+    }
+    
+    p{
+        margin-left: 30%;
+        margin-right: 30%;
+        margin-bottom: 50px;
+    }
+}
+
+@media only screen  and (max-width: 480px){
+    ul{
+        margin: 0;
+    }
+    
+    li{
+        text-align: center;
+        margin-left: 5%;
+        margin-right: 10%;
+    }
+    
+    li:hover{
+        margin-right: 20px;
+        margin-left: 0px;
+    }
 }
