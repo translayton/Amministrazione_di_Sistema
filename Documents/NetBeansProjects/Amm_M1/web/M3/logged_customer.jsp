@@ -1,0 +1,80 @@
+<%-- 
+    Document   : logged_customer
+    Created on : 17-apr-2016, 21.28.05
+    Author     : utente
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cliente</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Riccardo Locci">
+        <meta name="keywords" content="cliente">
+        <link href="style.css" rel="stylesheet" type="text/css" media="screen">
+    </head>
+    <body>
+        <nav>
+            <ul class="summary">
+                <li>
+                    <a href="login.html">Login</a>
+                </li>
+                <li>
+                    <a href="descrizione.html">Homepage</a>
+                </li>
+            </ul>
+        </nav>
+        <div>
+            <p class="center">
+                Buongiorno cliente!<br/>
+                Di seguito troverai una tabella di oggetti che potrebbero interessarti.
+            </p>
+            <table>
+                <tr class="columns">
+                    <th id="name">Nome</th>
+                    <th id="image">Foto</th>
+                    <th id="amount">Quantità</th>
+                    <th id="price">Prezzo</th>
+                    <th id="link">Link al carrello</th>
+                </tr>
+                <tr class="dispari">
+                    <td>Aspirapolvere</td>
+                    <td><img alt="foto dell'aspirapolvere" src="aspirapolvere.jpg" width="96" height="96"/></td>
+                    <td>3</td>
+                    <td>€ 149.99</td>
+                    <td><a href="cliente.html">Aggiungi al carrello!</a></td>
+                </tr>
+                <tr class="pari">
+                    <td>Cellulare</td>
+                    <td><img alt="foto del cellulare" src="cellulare.jpg" width="96" height="96"/></td>
+                    <td>7</td>
+                    <td>€ 69.99</td>
+                    <td><a href="cliente.html">Aggiungi al carrello!</a></td>
+                </tr>
+                <tr class="dispari">
+                    <td>Taglierba</td>
+                    <td><img alt="foto del tagliaerba" src="tagliaerba.jpg" width="96" height="96"/></td>
+                    <td>2</td>
+                    <td>€ 54.90</td>
+                    <td><a href="cliente.html">Aggiungi al carrello!</a></td>
+                </tr>
+                <tr class="pari">
+                    <td>Matite colorate</td>
+                    <td><img alt="foto delle matite colorate" src="matite.jpg" width="96" height="96"/></td>
+                    <td>5</td>
+                    <td>€ 19.99</td>
+                    <td><a href="cliente.html">Aggiungi al carrello!</a></td>
+                </tr>
+                <tr class="dispari">
+                    <td>Scarpe</td>
+                    <td><img alt="foto delle scarpe" src="scarpe.jpg" width="96" height="96"/></td>
+                    <td>4</td>
+                    <td>€ 99.99</td>
+                    <td><a href="cliente.html">Aggiungi al carrello!</a></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
