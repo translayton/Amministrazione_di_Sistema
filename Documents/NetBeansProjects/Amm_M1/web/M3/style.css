@@ -13,7 +13,7 @@ body{
     color: #00004d;
     text-align: left;
     font-size: 90%;
-    font-family: Helvetica Neue,Helvetica,Arial,sans-serif; 
+    font-family: Helvetica Neue, Helvetica, Arial,sans-serif; 
 }
 
 h1{
@@ -121,14 +121,14 @@ a:hover, a:active, a:focus{
     font-weight: bold;
 }
 
-a#log_in{
+div.log_in, a.log_in{
     border-style: solid;
     border-width: 2px;
     border-color: darkgreen;
     background-color: rgba(0, 220, 120, 0.7);
 }
 
-a#log_in:hover{
+a.log_in:hover{
     color: darkgreen;
     font-weight: bold;
 }
@@ -140,7 +140,6 @@ ul{
 }
 
 li{
-    margin-left: 20%;
     margin-right: -150px;
     padding: 5px;
     border-style: solid;
@@ -150,15 +149,14 @@ li{
 }
 
 li:hover{
-    padding: 5px;
     margin-right: -160px;
-    padding-left: 5px;
     border-top: 1px solid black;
     font-weight: bold;
 }
 
 li:first-child {
     border-top: 1px solid black;
+    height: 20px;
 }
 
 label{
@@ -178,7 +176,7 @@ input:focus, textarea:focus{
     text-align: left;
 }
 
-button{
+input[type="submit"].send, input[type="submit"].client{
     float: right;
     margin-top: 3%;
     margin-bottom: 10%;
@@ -191,15 +189,49 @@ button{
     font-size: 90%;
 }
 
-         
-
-button[type="submit"]:hover, button[type="submit"]:active{
+input[type="submit"].send:hover, input[type="submit"].send:active, input[type="submit"].send:focus,
+input[type="submit"].client:hover, input[type="submit"].client:active, input[type="submit"].client:focus{
     border-width: 3px;
     border-style: ridge;
     border-color: darkgreen;
     background-color: rgba(0, 120, 20, 0.8);
     color: rgba(255, 255, 255, 1);
     text-align: center;
+}
+
+input[type="submit"].logout{
+    border: none;
+    display: inline;
+    background: none;
+    cursor: pointer;
+    width: auto;
+    padding-left: 50px;
+    position: relative;
+    top: 45%;
+    left: 5%;
+    bottom: 45%;
+    text-align: left;
+    color: darkgreen;
+    font-size: 100%;
+    font-family: Tahoma,Verdana,Segoe,sans-serif;
+}
+
+input[type="submit"].logout:hover{
+    margin-left: -20%;
+    font-weight: bold;
+    padding-left: 55px;
+}
+
+input[type="submit"].logout:visited{
+    color: darkblue;
+}
+
+input[type="submit"].logout:focus{
+    border: none;
+}
+
+strong{
+    color: darkred;
 }
 
 @media only screen  and (min-width: 1024px){
@@ -229,7 +261,7 @@ button[type="submit"]:hover, button[type="submit"]:active{
         margin-right: 40%;
     }
     
-    a#log_in{
+    div.log_in, a.log_in{
         padding: 1%;
         margin-right: 43.75%;
         margin-left: 42%;
@@ -272,15 +304,40 @@ button[type="submit"]:hover, button[type="submit"]:active{
         margin-right: 25%;
     }
     
-    button[type="submit"]{
+    input[type="submit"].send{
         margin-right: 45%;
         width: 10%;
+    }
+    
+    input[type="submit"].client{
+        display: block;
+        margin-right: 45%;
+        margin-bottom: 0;
+        width: 10%;
+    }
+    
+    em{
+        margin-right: 35%;
+        margin-top: -0.5%;
+        display: inline-block;
+        float: right;
+        color: red;
+        font-size: 0.8em;
+    }
+    
+    em#derror{
+        display: block;
+        top: 50px;
+        left: 50.5%;
+        width: auto;
+        clear: both;
     }
 }
 
 @media only screen  and (min-width: 480px) and (max-width: 1024px){
     .summary{
         float: left;
+        display: inline-block;
     }
     
     article{
@@ -304,9 +361,10 @@ button[type="submit"]:hover, button[type="submit"]:active{
        float: right;
        margin-right: 3%; 
        margin-left: 20%;
+       display: inline-block;
     }
     
-    a#log_in{
+    div.log_in, a.log_in{
         padding: 1%;
         margin-right: 38.5%;
         margin-left: 41.5%;
@@ -319,6 +377,7 @@ button[type="submit"]:hover, button[type="submit"]:active{
     label{
         margin-top: 5%;
         margin-right: 40%;
+        margin-left: 40%;
         margin-bottom: 2%;
         width: 20%;
         padding-top: 2px;
@@ -335,6 +394,13 @@ button[type="submit"]:hover, button[type="submit"]:active{
         margin-bottom: 2%;
     }
     
+    input[type="submit"].client{
+        display: block;
+        margin-right: 35%;
+        margin-bottom: 0;
+        width: 30%;
+    }
+    
     textarea{
         display: inline-block;
         margin-left: 35%;
@@ -349,9 +415,20 @@ button[type="submit"]:hover, button[type="submit"]:active{
         margin-right: 10%;
     }
     
-    button[type="submit"]{
+    input[type="submit"].send{
         margin-right: 42.5%;
         width: 15%;
+    }
+    
+    em{
+        width: 30%;
+        margin-right: 35%;
+        margin-left: 35%;
+        margin-top: -0.5%;
+        display: inline-block;
+        color: red;
+        font-size: 0.8em;
+        text-align: center;
     }
 }
 
@@ -396,7 +473,7 @@ button[type="submit"]:hover, button[type="submit"]:active{
         padding: 2%;
     }
     
-    a#log_in{
+    div.log_in, a.log_in{
         padding: 1%;
         margin-right: 38.5%;
         margin-left: 41.5%;
@@ -407,6 +484,7 @@ button[type="submit"]:hover, button[type="submit"]:active{
     }
     
     label{
+        margin-top: 2%;
         margin-right: 40%;
         margin-bottom: 2%;
         width: 20%;
@@ -438,8 +516,18 @@ button[type="submit"]:hover, button[type="submit"]:active{
         width: 100%;
     }
     
-    button[type="submit"]{
+    input[type="submit"].send{
         margin-right: 40%;
         width: 20%;
+    }
+    
+    em{
+        width: 50%;
+        margin-right: 25%;
+        margin-left: 25%;
+        display: inline-block;
+        color: red;
+        font-size: 0.8em;
+        text-align: center;
     }
 }

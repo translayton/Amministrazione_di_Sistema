@@ -1,0 +1,143 @@
+<%-- 
+    Document   : logged_seller
+    Created on : 17-apr-2016, 21.26.39
+    Author     : Riccardo Locci
+--%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <c:if test="${authError}">
+            <title>Errore 403</title>           
+        </c:if>
+        <c:if test="${!authError}">
+            <title>Venditore</title>
+        </c:if>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Riccardo Locci">
+        <meta name="keywords" content="venditore">
+        <link href="M3/style.css" rel="stylesheet" type="text/css" media="screen">
+    </head>
+    <body>
+        <nav>
+            <ul class="summary">
+                <c:if test="${user != null}">
+                    <li>
+                        <form action="venditore.html" method="post">
+                            <input type="submit" name="Logout" class="logout" value="${user.getName()} (Logout)"/>
+                        </form>
+                    </li>
+                </c:if>
+                <c:if test="${user == null}">
+                    <li><a href="login.html">Login</a></li>
+                </c:if>
+                <li><a href="descrizione.html">Homepage</a></li>
+            </ul>
+        </nav>
+        <c:if test="${authError}">
+            <div>
+                <h1>Forbidden</h1>
+                <p class='center'>Autenticazione fallita! <br/>Non sei autorizzato a visualizzare la risorsa!</p>
+            </div>
+        </c:if>
+        <c:if test="${!authError}">
+            <c:if test="${!itemSelled}">
+                <div>
+                    <p class="center">
+                        Buongiorno!<br/>
+                        Se hai raggiunto questa pagina, vuol dire che hai degli oggetti da vendere!<br/>
+                        Sfrutta il seguente form per iniziare a vendere!<br/>
+                    </p>
+                    <table>
+                        <tr class="columns">
+                            <th>Campo</th>
+                            <th>Descrizione del campo</th>
+                        </tr>
+                        <tr class="dispari">
+                            <td>Nome</td>
+                            <td>Nome dell'oggetto da vendere</td>
+                        </tr>
+                        <tr class="pari">
+                            <td>Foto</td>
+                            <td>URL di una foto riguardante l'oggetto</td>
+                        </tr>
+                        <tr class="dispari">
+                            <td>Descrizione</td>
+                            <td>Descrizione dell'oggetto</td>
+                        </tr>
+                        <tr class="pari">
+                            <td>Prezzo</td> 
+                            <td>Prezzo al quale si vuol vendere l'oggetto</td>
+                        </tr>
+                        <tr class="dispari">
+                            <td>Quantità</td> 
+                            <td>Quantità che si vuole vendere</td>
+                        </tr>
+                    </table>
+                    <br/><br/><br/>
+                    <form action="venditore.html" method="post">
+                        <label for="nome">Nome:</label>
+                        <input type="text" name="Name" id="nome" value=""/>
+                        <em>${nameError}</em>
+                        <br/>
+                        <label for="url">Foto:</label>
+                        <input type="text" name="Image" id="url" value=""/>
+                        <em>${imageError}</em>
+                        <br/>
+                        <label for="price">Prezzo:</label>
+                        <input type="text" name="Price" id="price" value=""/>
+                        <em>${priceError}</em>
+                        <br/>
+                        <label for="amount">Quantità:</label>
+                        <input type="number" name="Amount" id="amount" value=""/>
+                        <em>${amountError}</em>
+                        <br/>
+                        <label for="desc">Descrizione:</label>
+                        <textarea rows="5" cols="25" name="Desc" id="desc"></textarea>
+                        <em id="derror">${descError}</em>
+                        <br/>
+                        <input type="submit" name="Sell" class="send" value="Vendi!">
+                    </form>
+                </div>
+            </c:if>
+            <c:if test="${itemSelled}">
+                <p class="center">
+                    Ecco il riassunto dei dettagli che riguardano l'oggetto che volevi inserire<br/>
+                </p>
+                <table>
+                    <tr class="columns">
+                        <th>Campo</th>
+                        <th>Valore del nuovo oggetto</th>
+                    </tr>
+                    <tr class="dispari">
+                        <td>Nome</td>
+                        <td>${name}</td>
+                    </tr>
+                    <tr class="pari">
+                        <td>Foto</td>
+                        <td>${image}</td>
+                    </tr>
+                    <tr class="dispari">
+                        <td>Descrizione</td>
+                        <td>${desc}</td>
+                    </tr>
+                    <tr class="pari">
+                        <td>Prezzo</td> 
+                        <td>${price}</td>
+                    </tr>
+                    <tr class="dispari">
+                        <td>Quantità</td> 
+                        <td>${amount}</td>
+                    </tr>
+                </table>
+                <form action="venditore.html" method="post">    
+                    <input type="submit" name="Back" class="send" value="Vendi un nuovo oggetto!"/>
+                </form>
+            </c:if>
+        </c:if>
+    </body>
+</html>
+

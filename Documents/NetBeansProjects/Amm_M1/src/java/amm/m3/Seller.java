@@ -16,7 +16,7 @@ public class Seller extends User{
     private ArrayList<Item> itemList;
     
     public Seller(String name, String surname, String username, String password, double money){
-        super(name, surname, username, password);
+        super(name, surname, username, password, money);
         itemList = new ArrayList<>();
     }
     

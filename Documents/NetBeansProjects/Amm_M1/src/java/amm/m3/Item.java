@@ -18,18 +18,25 @@ public class Item {
      */
     private String name;
     private String imgName;
+    private String imgAlt;
+    private int imgHeight;
+    private int imgWidth;
     private int amount;
     private double price;
-    private static ArrayList<Item> itemList;
+    public static ArrayList<Item> itemList;
     
-    public Item(String name, String imgName, int amount, double price){
+    public Item(String name, String imgName, String imgAlt, int imgHeight, int imgWidth, int amount, double price){
         this.name = name;
         this.imgName = imgName;
+        this.imgAlt = imgAlt;
+        this.imgHeight = imgHeight;
+        this.imgWidth = imgWidth;
         this.amount = amount;
         this.price = price;
-        itemList.add(this);
+        if(itemList == null){
+            itemList = new ArrayList<>();
+        }
     }
-
     /**
      * @return the name
      */
@@ -71,18 +78,6 @@ public class Item {
     public void setPrice(double price) {
         this.price = price;
     }
-    
-    public void initList(){
-        itemList = new ArrayList<>();
-    }
-    
-    public static ArrayList<Item> getItemList() {
-        return itemList;
-    }
-    
-    public static void itemListAdd(Item item){
-        itemList.add(item);
-    }
 
     /**
      * @return the imgName
@@ -96,5 +91,47 @@ public class Item {
      */
     public void setImgName(String imgName) {
         this.imgName = imgName;
+    }
+
+    /**
+     * @return the imgHeight
+     */
+    public int getImgHeight() {
+        return imgHeight;
+    }
+
+    /**
+     * @param imgHeight the imgHeight to set
+     */
+    public void setImgHeight(int imgHeight) {
+        this.imgHeight = imgHeight;
+    }
+
+    /**
+     * @return the imgWidth
+     */
+    public int getImgWidth() {
+        return imgWidth;
+    }
+
+    /**
+     * @param imgWidth the imgWidth to set
+     */
+    public void setImgWidth(int imgWidth) {
+        this.imgWidth = imgWidth;
+    }
+
+    /**
+     * @return the imgAlt
+     */
+    public String getImgAlt() {
+        return imgAlt;
+    }
+
+    /**
+     * @param imgAlt the imgAlt to set
+     */
+    public void setImgAlt(String imgAlt) {
+        this.imgAlt = imgAlt;
     }
 }

@@ -4,6 +4,7 @@
     Author     : utente
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,7 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="author" content="Riccardo Locci">
         <meta name="keywords" content="login">
-        <link href="style.css" rel="stylesheet" type="text/css" media="screen">
+        <link href="M3/style.css" rel="stylesheet" type="text/css" media="screen">
     </head>
     <body>
         <nav>
@@ -34,14 +35,16 @@
             <p class="log_in">
                 Per favore, autenticati!
             </p>
-            <form action="descrizione.html" method="post">
+            <form action="login.html" method="post">
                 <label for="user">Username</label>
                 <input type="text" name="username" id="user" value=""/>
+                <em>${usernameError}</em>
                 <br/>
                 <label for="psw">Password</label>
                 <input type="password" name="password" id="psw" value=""/>
+                <em>${passwordError}</em>
                 <br/>
-                <button type="submit">Login</button>
+                <input type="submit" class="send" name="Submit" value="Login">
             </form>
         </div>
     </body>

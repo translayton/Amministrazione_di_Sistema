@@ -16,14 +16,15 @@ public class User {
     private String surname;
     private String username;
     private String password;
-    private static ArrayList<User> userList;
+    private Money wallet;
+    public static ArrayList<User> userList;
     
-    public User(String name, String surname, String username, String password){
+    public User(String name, String surname, String username, String password, double money){
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.password = password;
-        userList.add(this);
+        this.wallet = new Money(money);
     }
 
     /**
@@ -82,7 +83,7 @@ public class User {
         this.password = password;
     }
     
-    public void initList(){
+    public static void initList(){
         userList = new ArrayList<>();
     }
     
@@ -96,5 +97,19 @@ public class User {
     
     public static User getUserById(int id){
         return userList.get(id);
+    }
+
+    /**
+     * @return the wallet
+     */
+    public Money getWallet() {
+        return wallet;
+    }
+
+    /**
+     * @param wallet the wallet to set
+     */
+    public void setWallet(Money wallet) {
+        this.wallet = wallet;
     }
 }
