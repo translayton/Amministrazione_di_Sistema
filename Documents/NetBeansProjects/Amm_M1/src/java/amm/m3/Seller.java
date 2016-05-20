@@ -30,5 +30,11 @@ public class Seller extends User{
     
     public void addItem(Item item){
         this.itemList.add(item);
+        Item.itemList.add(item);
+    }
+    
+    public void removeItem(int id){
+        Item.itemList.remove(this.itemList.get(id));
+        this.itemList.remove(id);
     }
 }

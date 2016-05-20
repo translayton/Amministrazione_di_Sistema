@@ -5,7 +5,14 @@
  */
 package amm.m3;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -13,6 +20,7 @@ import java.util.ArrayList;
  */
 public class ItemFactory {
     public static ItemFactory instance;
+    private String connectionString;
     
     public static ItemFactory getInstance() {
         if (instance == null) {
@@ -22,13 +30,49 @@ public class ItemFactory {
     }
     
     public static ArrayList<Item> getItemList(){
-        Item.itemList = new ArrayList<>();
-        Item.itemList.add(new Item("Aspirapolvere", "aspirapolvere.jpg", "Foto aspirapolvere", 96, 96, 3, 149.99));
-        Item.itemList.add(new Item("Cellulare", "cellulare.jpg", "Foto cellulare", 96, 96, 7, 69.99));
-        Item.itemList.add(new Item("Matite", "matite.jpg", "Foto matite", 96, 96, 5, 19.99));
-        Item.itemList.add(new Item("Scarpe", "scarpe.jpg", "Foto scarpe", 96, 96, 4, 99.99));
-        Item.itemList.add(new Item("Tagliaerba", "tagliaerba.jpg", "Foto tagliaerba", 96, 96, 2, 54.90));
+        try{
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+            
+            Connection con = (Connection) DriverManager.getConnection("jdbc:derby://localhost:1527/ammdb", "milestone4", "milestone4");
+            Statement stmt = con.createStatement();
+            
+            String sql = "select * from ItemTable";
+            
+            ResultSet itemSet = stmt.executeQuery(sql);
+            
+            while(itemSet.next()){
+                int sellerId = itemSet.getInt("sellerId");
+                String name = itemSet.getString("name");
+                String imgName = itemSet.getString("imgName");
+                String imgAlt = itemSet.getString("imgAlt");
+                int imgHeight = itemSet.getInt("imgHeight");
+                int imgWidth = itemSet.getInt("imgWidth");
+                int amount = itemSet.getInt("amount");
+                double price = itemSet.getDouble("price"); 
+                
+                Item item = new Item(name, imgName, imgAlt, imgHeight, imgWidth, amount, price);
+                
+                if(User.userList.get(sellerId-1) instanceof Seller){
+                    ((Seller)User.userList.get(sellerId-1)).addItem(item);
+                }
+                else{
+                    Item.itemList.add(item);
+                }
+            }
+            
+            con.close();
+            
+        }catch(ClassNotFoundException | SQLException e){
+            Logger.getLogger(UserFactory.class.getName()).log(Level.SEVERE, null, e);
+        }
         
         return Item.itemList;
+    }
+    
+    public void setConnectionString(String s){
+	this.connectionString = s;
+    }
+    public String getConnectionString(){
+	return this.connectionString;
     }
 }

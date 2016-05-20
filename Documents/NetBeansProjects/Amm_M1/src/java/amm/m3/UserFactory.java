@@ -5,7 +5,14 @@
  */
 package amm.m3;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -13,6 +20,7 @@ import java.util.ArrayList;
  */
 public class UserFactory {
     public static UserFactory instance;
+    private String connectionString;
     
     public static UserFactory getInstance() {
         if (instance == null) {
@@ -23,11 +31,42 @@ public class UserFactory {
     
     public ArrayList<User> getUserList(){
         User.userList = new ArrayList<>();
-        User.userList.add(new Customer("Maurizio", "Santini", "mausan71", "customer1", 0.0));
-        User.userList.add(new Customer("Demetra", "Fini", "demfi89", "customer2", 0.0));
-        User.userList.add(new Seller("Enrico", "Righi", "enri75", "seller1", 0.0));
-        User.userList.add(new Seller("Livia", "Nave", "lina83", "seller2", 0.0));
         
+         try{
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+            
+            Connection con = (Connection) DriverManager.getConnection("jdbc:derby://localhost:1527/ammdb", "milestone4", "milestone4");
+            Statement stmt = con.createStatement();
+            
+            String sql = "select * from UserTable";
+            
+            ResultSet userSet = stmt.executeQuery(sql);
+            
+            while(userSet.next()){
+                String name = userSet.getString("name");
+                String surname = userSet.getString("surname");
+                String username = userSet.getString("username");
+                String password = userSet.getString("password");
+                double money = userSet.getDouble("money");
+                boolean isSeller = userSet.getBoolean("isSeller");
+                
+                if(isSeller)    User.userList.add(new Seller(name, surname, username, password, money));
+                else            User.userList.add(new Customer(name, surname, username, password, money));
+            }
+            
+            con.close();
+            
+        }catch(ClassNotFoundException | SQLException e){
+            Logger.getLogger(UserFactory.class.getName()).log(Level.SEVERE, null, e);
+        }
+ 
         return User.userList;
+    }
+    
+    public void setConnectionString(String s){
+	this.connectionString = s;
+    }
+    public String getConnectionString(){
+	return this.connectionString;
     }
 }
