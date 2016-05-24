@@ -1,7 +1,7 @@
 User Table               |	              |	Item Table                 |
                          |                    |                            |
 integer id P.K.          |                    | integer id P.K.            |
-varchar(32) name;        |<-------------------| varchar(32) sellername F.K.|
+varchar(32) name;        |<-------------------| integer sellerid F.K.       |
 varchar(32) surname;     |                    | varchar(32) name;          |
 varchar(32) username;    |                    |	varchar(32) imgname;       |
 varchar(32) password;    |                    |	varchar(32) imgalt;        |

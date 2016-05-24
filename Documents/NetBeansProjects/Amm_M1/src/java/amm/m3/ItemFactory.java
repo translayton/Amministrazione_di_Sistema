@@ -59,7 +59,7 @@ public class ItemFactory {
                     Item.itemList.add(item);
                 }
             }
-            
+            stmt.close();
             con.close();
             
         }catch(ClassNotFoundException | SQLException e){

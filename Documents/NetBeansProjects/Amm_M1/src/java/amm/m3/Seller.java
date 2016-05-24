@@ -33,6 +33,11 @@ public class Seller extends User{
         Item.itemList.add(item);
     }
     
+    public void setItem(int index, Item item){
+        Item.itemList.add(Item.itemList.indexOf(this.itemList.get(index)), item);
+        this.itemList.add(index, item);
+    }
+    
     public void removeItem(int id){
         Item.itemList.remove(this.itemList.get(id));
         this.itemList.remove(id);

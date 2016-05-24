@@ -45,39 +45,70 @@
         </c:if>
         <c:if test="${!authError}">
             <c:if test="${!itemSelled}">
-                <div>
-                    <p class="center">
-                        Buongiorno!<br/>
-                        Se hai raggiunto questa pagina, vuol dire che hai degli oggetti da vendere!<br/>
-                        Sfrutta il seguente form per iniziare a vendere!<br/>
-                    </p>
-                    <table>
-                        <tr class="columns">
-                            <th>Campo</th>
-                            <th>Descrizione del campo</th>
-                        </tr>
-                        <tr class="dispari">
-                            <td>Nome</td>
-                            <td>Nome dell'oggetto da vendere</td>
-                        </tr>
-                        <tr class="pari">
-                            <td>Foto</td>
-                            <td>URL di una foto riguardante l'oggetto</td>
-                        </tr>
-                        <tr class="dispari">
-                            <td>Descrizione</td>
-                            <td>Descrizione dell'oggetto</td>
-                        </tr>
-                        <tr class="pari">
-                            <td>Prezzo</td> 
-                            <td>Prezzo al quale si vuol vendere l'oggetto</td>
-                        </tr>
-                        <tr class="dispari">
-                            <td>Quantità</td> 
-                            <td>Quantità che si vuole vendere</td>
-                        </tr>
-                    </table>
-                    <br/><br/><br/>
+                <c:if test="${!isEditing}">
+                    <div>
+                        <p class="center">
+                            Buongiorno!<br/>
+                            Se hai raggiunto questa pagina, vuol dire che hai degli oggetti da vendere!<br/>
+                            Sfrutta il seguente form per iniziare a vendere!<br/>
+                        </p>
+                        <table>
+                            <tr class="columns">
+                                <th>Nome</th>
+                                <th>Modifica</th>
+                                <th>Rimuovi</th>
+                            </tr>
+                            <c:forEach var="item" items="${itemList}">
+                                <c:if test="${itemList.indexOf(item) % 2 == 0}">
+                                    <c:set var="class" value="pari"/>
+                                </c:if>
+                                <c:if test="${!(itemList.indexOf(item) % 2 == 0)}">
+                                    <c:set var="class" value="dispari"/>
+                                </c:if>
+                                <tr class="${class}">
+                                    <td>${item.getName()}</td>
+                                    <td>
+                                        <form action="venditore.html" method="post">
+                                            <input type="hidden" name="editItem" value="${itemList.indexOf(item)}">
+                                            <input type="submit" class="logout" name="Edit" value="Modifica"/>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form action="venditore.html" method="post">
+                                            <input type="hidden" name="removeItem" value="${itemList.indexOf(item)}">
+                                            <input type="submit" class="logout" name="Remove" value="Rimuovi"/>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                        <br/><br/><br/>
+                        <form action="venditore.html" method="post">
+                            <label for="nome">Nome:</label>
+                            <input type="text" name="Name" id="nome" value=""/>
+                            <em>${nameError}</em>
+                            <br/>
+                            <label for="url">Foto:</label>
+                            <input type="text" name="Image" id="url" value=""/>
+                            <em>${imageError}</em>
+                            <br/>
+                            <label for="price">Prezzo:</label>
+                            <input type="text" name="Price" id="price" value=""/>
+                            <em>${priceError}</em>
+                            <br/>
+                            <label for="amount">Quantità:</label>
+                            <input type="number" name="Amount" id="amount" value=""/>
+                            <em>${amountError}</em>
+                            <br/>
+                            <label for="desc">Descrizione:</label>
+                            <textarea rows="5" cols="25" name="Desc" id="desc"></textarea>
+                            <em id="derror">${descError}</em>
+                            <br/>
+                            <input type="submit" name="Sell" class="send" value="Vendi!">
+                        </form>
+                    </div>
+                </c:if>
+                <c:if test="${isEditing}">
                     <form action="venditore.html" method="post">
                         <label for="nome">Nome:</label>
                         <input type="text" name="Name" id="nome" value=""/>
@@ -99,9 +130,10 @@
                         <textarea rows="5" cols="25" name="Desc" id="desc"></textarea>
                         <em id="derror">${descError}</em>
                         <br/>
-                        <input type="submit" name="Sell" class="send" value="Vendi!">
+                        <input type="hidden" name="isEditing" value="${isEditing}">
+                        <input type="submit" name="Sell" class="send" value="Conferma">
                     </form>
-                </div>
+                </c:if>
             </c:if>
             <c:if test="${itemSelled}">
                 <p class="center">
@@ -133,7 +165,13 @@
                         <td>${amount}</td>
                     </tr>
                 </table>
-                <form action="venditore.html" method="post">    
+                <form action="venditore.html" method="post">   
+                    <input type="hidden" name="name" value="${name}">
+                    <input type="hidden" name="image" value="${image}">
+                    <input type="hidden" name="desc" value="${desc}">
+                    <input type="hidden" name="price" value="${price}">
+                    <input type="hidden" name="amount" value="${amount}">
+                    <input type="hidden" name="isEditing" value="${isEditing}">
                     <input type="submit" name="Back" class="send" value="Vendi un nuovo oggetto!"/>
                 </form>
             </c:if>

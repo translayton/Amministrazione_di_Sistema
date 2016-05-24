@@ -55,13 +55,16 @@ public class Login extends HttpServlet {
                     if(u.getUsername().equals(username)){
                         if(u.getPassword().equals(password)){
                             session.setAttribute("loggedIn", true);
-                            session.setAttribute("user", u);
+                            ArrayList<Item> itemList = ItemFactory.getItemList();
                             
                             if(u instanceof Seller) {
+                                session.setAttribute("user", (Seller) u);
+                                request.setAttribute("itemList", ((Seller)u).getItemList());
                                 request.getRequestDispatcher("M3/venditore.jsp").forward(request, response);  
                             }
                             else{
-                                request.setAttribute("itemList", ItemFactory.getItemList());
+                                session.setAttribute("user", (Customer) u);
+                                request.setAttribute("itemList", itemList);
                                 request.getRequestDispatcher("M3/cliente.jsp").forward(request, response);  
                             }
                             return;

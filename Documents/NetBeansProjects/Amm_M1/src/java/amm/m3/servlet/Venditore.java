@@ -6,8 +6,18 @@
 package amm.m3.servlet;
 
 import amm.m3.Customer;
+import amm.m3.Item;
+import amm.m3.ItemFactory;
+import amm.m3.Seller;
+import amm.m3.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,7 +46,8 @@ public class Venditore extends HttpServlet {
         
         HttpSession session = request.getSession(false);
         Boolean itemSelled = true;
-
+        Boolean isEditing = false;
+        
         if(session == null || session.getAttribute("loggedIn") == null || !((Boolean)session.getAttribute("loggedIn"))){
             request.getRequestDispatcher("M3/login.jsp").forward(request, response);
             return;
@@ -58,6 +69,8 @@ public class Venditore extends HttpServlet {
             request.removeAttribute("priceError");
             request.removeAttribute("amountError");
             request.removeAttribute("descError");
+            
+            isEditing = Boolean.parseBoolean(request.getParameter("isEditing"));
             
             String itemName = request.getParameter("Name");
             
@@ -120,8 +133,76 @@ public class Venditore extends HttpServlet {
             }
         }
         else if(request.getParameter("Back") != null){
+            User u = (User)session.getAttribute("user");
+            isEditing = Boolean.parseBoolean(request.getParameter("isEditing"));
+
+            if(!isEditing){
+                if(u != null && u instanceof Seller){
+                    Item item = new Item(request.getParameter("name"), request.getParameter("image"), request.getParameter("desc"), 96, 96, 
+                            Integer.parseInt(request.getParameter("amount")), Double.parseDouble(request.getParameter("price")));
+
+                    ((Seller)u).addItem(item);
+
+                    try{
+                        Connection con = (Connection) DriverManager.getConnection("jdbc:derby://localhost:1527/ammdb", "milestone4", "milestone4");
+
+                        String sql = "insert into ItemTable (id, sellerid, name, imgname, imgalt, imgheight, imgwidth, amount, price) " +
+                                    "values (default, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        PreparedStatement stmt = con.prepareStatement(sql);
+
+                        stmt.setInt(1, User.userList.indexOf(u)+1);
+                        stmt.setString(2, item.getName());
+                        stmt.setString(3, item.getImgName());
+                        stmt.setString(4, item.getImgAlt());
+                        stmt.setInt(5, item.getImgHeight());
+                        stmt.setInt(6, item.getImgWidth());
+                        stmt.setInt(7, item.getAmount());
+                        stmt.setDouble(8, item.getPrice());
+
+                        stmt.executeUpdate();
+                    }catch(SQLException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+            else{
+                Item item = new Item(request.getParameter("name"), request.getParameter("image"), request.getParameter("desc"), 96, 96, 
+                    Integer.parseInt(request.getParameter("amount")), Double.parseDouble(request.getParameter("price")));
+            
+                Integer userItemIndex = Integer.parseInt(request.getParameter("editItem"));
+
+                try{
+                    Connection con = (Connection) DriverManager.getConnection("jdbc:derby://localhost:1527/ammdb", "milestone4", "milestone4");
+  
+                    String sql = "update ItemTable set name = ?, imgname = ?, imgalt = ?, imgheight = ?, imgwidth = ?, amount = ?, price = ? " + 
+                            "where id = " + Item.itemList.indexOf(((Seller)u).getItemById(userItemIndex)) + 1;
+                    PreparedStatement stmt = con.prepareStatement(sql);
+                    
+                    stmt.setString(1, item.getName());
+                    stmt.setString(2, item.getImgName());
+                    stmt.setString(3, item.getImgAlt());
+                    stmt.setInt(4, item.getImgHeight());
+                    stmt.setInt(5, item.getImgWidth());
+                    stmt.setInt(6, item.getAmount());
+                    stmt.setDouble(7, item.getPrice());
+                    
+                    stmt.executeUpdate();
+                }catch(SQLException e){
+                    e.printStackTrace();
+                }
+            
+            ((Seller)u).setItem(userItemIndex, item);
+            }
+            
+            itemSelled = false;
+            request.setAttribute("itemList", ((Seller)u).getItemList());
+        }
+        else if(request.getParameter("Edit")!=null){
+            isEditing = true;
             itemSelled = false;
         }
+        
+        request.setAttribute("isEditing", isEditing);
         request.setAttribute("itemSelled", itemSelled);
         request.getRequestDispatcher("M3/venditore.jsp").forward(request, response);
     }

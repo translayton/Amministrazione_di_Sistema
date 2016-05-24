@@ -53,7 +53,7 @@ public class UserFactory {
                 if(isSeller)    User.userList.add(new Seller(name, surname, username, password, money));
                 else            User.userList.add(new Customer(name, surname, username, password, money));
             }
-            
+            stmt.close();
             con.close();
             
         }catch(ClassNotFoundException | SQLException e){
