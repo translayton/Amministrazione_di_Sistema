@@ -60,10 +60,10 @@
                             </tr>
                             <c:forEach var="item" items="${itemList}">
                                 <c:if test="${itemList.indexOf(item) % 2 == 0}">
-                                    <c:set var="class" value="pari"/>
+                                    <c:set var="class" value="dispari"/>
                                 </c:if>
                                 <c:if test="${!(itemList.indexOf(item) % 2 == 0)}">
-                                    <c:set var="class" value="dispari"/>
+                                    <c:set var="class" value="pari"/>
                                 </c:if>
                                 <tr class="${class}">
                                     <td>${item.getName()}</td>
@@ -130,6 +130,7 @@
                         <textarea rows="5" cols="25" name="Desc" id="desc"></textarea>
                         <em id="derror">${descError}</em>
                         <br/>
+                        <input type="hidden" name="editItem" value="${editItem}">
                         <input type="hidden" name="isEditing" value="${isEditing}">
                         <input type="submit" name="Sell" class="send" value="Conferma">
                     </form>
@@ -172,6 +173,7 @@
                     <input type="hidden" name="price" value="${price}">
                     <input type="hidden" name="amount" value="${amount}">
                     <input type="hidden" name="isEditing" value="${isEditing}">
+                    <input type="hidden" name="editItem" value="${editItem}">
                     <input type="submit" name="Back" class="send" value="Vendi un nuovo oggetto!"/>
                 </form>
             </c:if>

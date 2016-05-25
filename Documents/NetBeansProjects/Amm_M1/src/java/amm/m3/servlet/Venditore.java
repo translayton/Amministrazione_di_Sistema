@@ -7,17 +7,13 @@ package amm.m3.servlet;
 
 import amm.m3.Customer;
 import amm.m3.Item;
-import amm.m3.ItemFactory;
 import amm.m3.Seller;
 import amm.m3.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,12 +37,14 @@ public class Venditore extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    @SuppressWarnings("CallToPrintStackTrace")
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         HttpSession session = request.getSession(false);
         Boolean itemSelled = true;
         Boolean isEditing = false;
+        Integer editItem = 0;
         
         if(session == null || session.getAttribute("loggedIn") == null || !((Boolean)session.getAttribute("loggedIn"))){
             request.getRequestDispatcher("M3/login.jsp").forward(request, response);
@@ -64,6 +62,9 @@ public class Venditore extends HttpServlet {
             return;
         }
         else if(request.getParameter("Sell") != null){
+            if(request.getParameter("editItem")!=null){
+                editItem = Integer.parseInt(request.getParameter("editItem"));
+            }
             request.removeAttribute("nameError");
             request.removeAttribute("imageError");
             request.removeAttribute("priceError");
@@ -133,15 +134,15 @@ public class Venditore extends HttpServlet {
             }
         }
         else if(request.getParameter("Back") != null){
-            User u = (User)session.getAttribute("user");
+            Seller u = (Seller)session.getAttribute("user");
             isEditing = Boolean.parseBoolean(request.getParameter("isEditing"));
-
+            
             if(!isEditing){
                 if(u != null && u instanceof Seller){
                     Item item = new Item(request.getParameter("name"), request.getParameter("image"), request.getParameter("desc"), 96, 96, 
                             Integer.parseInt(request.getParameter("amount")), Double.parseDouble(request.getParameter("price")));
 
-                    ((Seller)u).addItem(item);
+                    u.addItem(item);
 
                     try{
                         Connection con = (Connection) DriverManager.getConnection("jdbc:derby://localhost:1527/ammdb", "milestone4", "milestone4");
@@ -160,22 +161,26 @@ public class Venditore extends HttpServlet {
                         stmt.setDouble(8, item.getPrice());
 
                         stmt.executeUpdate();
+			
+			stmt.close();
+			con.close();
                     }catch(SQLException e){
                         e.printStackTrace();
                     }
                 }
             }
             else{
+                editItem = Integer.parseInt(request.getParameter("editItem"));
+
                 Item item = new Item(request.getParameter("name"), request.getParameter("image"), request.getParameter("desc"), 96, 96, 
                     Integer.parseInt(request.getParameter("amount")), Double.parseDouble(request.getParameter("price")));
-            
-                Integer userItemIndex = Integer.parseInt(request.getParameter("editItem"));
 
                 try{
                     Connection con = (Connection) DriverManager.getConnection("jdbc:derby://localhost:1527/ammdb", "milestone4", "milestone4");
-  
+                    Integer itemIndex = Item.itemList.indexOf(((Seller)u).getItemById(editItem)) + 1;
+                    
                     String sql = "update ItemTable set name = ?, imgname = ?, imgalt = ?, imgheight = ?, imgwidth = ?, amount = ?, price = ? " + 
-                            "where id = " + Item.itemList.indexOf(((Seller)u).getItemById(userItemIndex)) + 1;
+                            "where id = " + itemIndex;
                     PreparedStatement stmt = con.prepareStatement(sql);
                     
                     stmt.setString(1, item.getName());
@@ -186,22 +191,50 @@ public class Venditore extends HttpServlet {
                     stmt.setInt(6, item.getAmount());
                     stmt.setDouble(7, item.getPrice());
                     
-                    stmt.executeUpdate();
+                    Integer n = stmt.executeUpdate();
+		    
+		    stmt.close();
+		    con.close();
                 }catch(SQLException e){
                     e.printStackTrace();
                 }
             
-            ((Seller)u).setItem(userItemIndex, item);
+                u.setItem(editItem, item);
             }
             
             itemSelled = false;
-            request.setAttribute("itemList", ((Seller)u).getItemList());
+            isEditing = false;
+            request.setAttribute("itemList", u.getItemList());
         }
         else if(request.getParameter("Edit")!=null){
             isEditing = true;
             itemSelled = false;
+            editItem = Integer.parseInt(request.getParameter("editItem"));
+        }
+        else if(request.getParameter("Remove")!=null){
+            itemSelled = false;
+            Seller u = (Seller)session.getAttribute("user");
+            Integer removeItem = Integer.parseInt(request.getParameter("removeItem"));
+            u.removeItem(removeItem);
+            request.setAttribute("itemList", u.getItemList());
+            
+            try{
+		Connection con = (Connection) DriverManager.getConnection("jdbc:derby://localhost:1527/ammdb", "milestone4", "milestone4");
+                Integer itemIndex = Item.itemList.indexOf(u.getItemById(removeItem)) + 1;
+                    
+                String sql = "delete from ItemTable where id = " + itemIndex;
+                PreparedStatement stmt = con.prepareStatement(sql);
+
+                Integer n = stmt.executeUpdate();
+		System.out.print("rows" + n);
+		stmt.close();
+		con.close();
+            }catch(SQLException e){
+	        e.printStackTrace();
+            }
         }
         
+        request.setAttribute("editItem", editItem);
         request.setAttribute("isEditing", isEditing);
         request.setAttribute("itemSelled", itemSelled);
         request.getRequestDispatcher("M3/venditore.jsp").forward(request, response);

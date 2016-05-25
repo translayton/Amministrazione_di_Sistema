@@ -112,4 +112,8 @@ public class User {
     public void setWallet(Money wallet) {
         this.wallet = wallet;
     }
+    
+    public void addToWallet(double money){
+	this.wallet.addAmount(money);
+    }
 }

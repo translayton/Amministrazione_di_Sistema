@@ -29,4 +29,8 @@ public class Money {
     public void setAmount(double amount) {
         this.amount = amount;
     }
+    
+    public void addAmount(double money){
+	this.amount+=money;
+    }
 }

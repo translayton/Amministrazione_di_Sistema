@@ -101,9 +101,11 @@
                         <td>${thisItem.getPrice()}</td>
                     </tr>
                 </table>
-                <form action="cliente.html" method="post"> 
-                    <input type="hidden" name="obj" value="${itemList.indexOf(thisItem)}">
+                <form action="cliente.html" method="post">
                     <input type="submit" name="Back" class="client" value="Indietro"/>
+                </form>
+                <form action="cliente.html" method="post">
+                    <input type="hidden" name="obj" value="${itemList.indexOf(thisItem)}">
                     <input type="submit" name="Buy" class="client" value="Compra oggetto"/>
                 </form>
                 <c:if test="${lowBudget && !selled}">
