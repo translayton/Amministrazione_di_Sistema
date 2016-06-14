@@ -234,6 +234,10 @@ strong{
     color: darkred;
 }
 
+.hide{
+    display: none;
+}
+
 @media only screen  and (min-width: 1024px){
     
     .summary{
@@ -302,6 +306,7 @@ strong{
         width: 50%;
         margin-left: 25%;
         margin-right: 25%;
+        float: right;
     }
     
     input[type="submit"].send{
@@ -331,6 +336,11 @@ strong{
         left: 50.5%;
         width: auto;
         clear: both;
+    }
+    
+    #filtra{
+        float:right;
+        margin-right: 20%;
     }
 }
 
@@ -429,6 +439,11 @@ strong{
         color: red;
         font-size: 0.8em;
         text-align: center;
+    }
+    
+    #filtra{
+        float:right;
+        margin-right: 10%;
     }
 }
 
@@ -529,5 +544,10 @@ strong{
         color: red;
         font-size: 0.8em;
         text-align: center;
+    }
+    
+    #filtra{
+        margin-right: 10%;
+        border: solid;
     }
 }

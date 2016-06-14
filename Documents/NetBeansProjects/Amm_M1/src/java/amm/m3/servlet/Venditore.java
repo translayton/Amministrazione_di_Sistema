@@ -139,7 +139,9 @@ public class Venditore extends HttpServlet {
             
             if(!isEditing){
                 if(u != null && u instanceof Seller){
-                    Item item = new Item(request.getParameter("name"), request.getParameter("image"), request.getParameter("desc"), 96, 96, 
+		    editItem = Integer.parseInt(request.getParameter("editItem"));
+		    
+                    Item item = new Item(request.getParameter("name"), editItem, request.getParameter("image"), request.getParameter("desc"), 96, 96, 
                             Integer.parseInt(request.getParameter("amount")), Double.parseDouble(request.getParameter("price")));
 
                     u.addItem(item);
@@ -172,7 +174,7 @@ public class Venditore extends HttpServlet {
             else{
                 editItem = Integer.parseInt(request.getParameter("editItem"));
 
-                Item item = new Item(request.getParameter("name"), request.getParameter("image"), request.getParameter("desc"), 96, 96, 
+                Item item = new Item(request.getParameter("name"), editItem, request.getParameter("image"), request.getParameter("desc"), 96, 96, 
                     Integer.parseInt(request.getParameter("amount")), Double.parseDouble(request.getParameter("price")));
 
                 try{

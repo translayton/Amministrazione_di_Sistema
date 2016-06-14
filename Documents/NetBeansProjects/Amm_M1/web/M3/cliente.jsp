@@ -16,6 +16,8 @@
         <meta name="author" content="Riccardo Locci">
         <meta name="keywords" content="cliente">
         <link href="M3/style.css" rel="stylesheet" type="text/css" media="screen">
+        <script type="text/javascript" src="./js/jquery-2.2.4.min.js"></script>
+        <script type="text/javascript" src="./js/filter.js"></script>
     </head>
     <body>
         <nav>
@@ -48,7 +50,12 @@
                         Buongiorno cliente!<br/>
                         Di seguito troverai una tabella di oggetti che potrebbero interessarti.
                     </p>
-                    <table>
+                    
+                    <input type="text" id="filtra" size="15" value="Filtra"/>
+                    
+                    <p class="hide" id="mex"></p>
+                    
+                    <table id="itemList">
                         <tr class="columns">
                             <th id="name">Nome</th>
                             <th id="image">Foto</th>

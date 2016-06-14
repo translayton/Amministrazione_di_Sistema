@@ -19,14 +19,16 @@ public class Item {
     private String name;
     private String imgName;
     private String imgAlt;
+    private int id;
     private int imgHeight;
     private int imgWidth;
     private int amount;
     private double price;
     public static ArrayList<Item> itemList;
     
-    public Item(String name, String imgName, String imgAlt, int imgHeight, int imgWidth, int amount, double price){
+    public Item(String name, int id, String imgName, String imgAlt, int imgHeight, int imgWidth, int amount, double price){
         this.name = name;
+	this.id = id;
         this.imgName = imgName;
         this.imgAlt = imgAlt;
         this.imgHeight = imgHeight;
@@ -41,7 +43,7 @@ public class Item {
      * @return the name
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -55,7 +57,7 @@ public class Item {
      * @return the amount
      */
     public int getAmount() {
-        return amount;
+        return this.amount;
     }
 
     /**
@@ -69,7 +71,7 @@ public class Item {
      * @return the price
      */
     public double getPrice() {
-        return price;
+        return this.price;
     }
 
     /**
@@ -83,7 +85,7 @@ public class Item {
      * @return the imgName
      */
     public String getImgName() {
-        return imgName;
+        return this.imgName;
     }
 
     /**
@@ -97,7 +99,7 @@ public class Item {
      * @return the imgHeight
      */
     public int getImgHeight() {
-        return imgHeight;
+        return this.imgHeight;
     }
 
     /**
@@ -111,7 +113,7 @@ public class Item {
      * @return the imgWidth
      */
     public int getImgWidth() {
-        return imgWidth;
+        return this.imgWidth;
     }
 
     /**
@@ -125,7 +127,7 @@ public class Item {
      * @return the imgAlt
      */
     public String getImgAlt() {
-        return imgAlt;
+        return this.imgAlt;
     }
 
     /**
@@ -133,5 +135,26 @@ public class Item {
      */
     public void setImgAlt(String imgAlt) {
         this.imgAlt = imgAlt;
+    }
+    
+    @Override
+    public String toString(){
+	return this.name + " " + this.imgName + " " + this.imgAlt + " " + 
+		this.imgHeight + " " + this.imgWidth + " " +
+		this.amount + " " + this.price;
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+	return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+	this.id = id;
     }
 }
