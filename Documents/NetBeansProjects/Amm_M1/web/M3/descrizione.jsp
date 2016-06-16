@@ -70,28 +70,28 @@
                 <h2 id="funzionalità">
                     Funzionalità
                 </h2>
-            </section>
-            <section>
-                <h3 id="venditore">
-                    Per il venditore
-                </h3>
-                <p>
-                    Non hai più bisogno di un oggetto e vuoi guadagnarci?<br/>
-                    Allora questa è la sezione giusta!<br/>
-                    Nell'apposito form potrai specificare cosa hai intenzione di vendere, le sue caratteristiche che ritieni più importanti, il prezzo e in che quantità desideri vendere! <br/>
-                    Se ti interessa mettere in vendita qualcosa che non ti serve più visita pure <a href='venditore.html'>questa pagina</a>!
-                </p>
-            </section>
-            <section>
-                <h3 id="cliente">
-                    Per il cliente
-                </h3>
-                <p>
-                    Ti interessa qualcosa? Bene!<br/>
-                    Avrai la possibilità di scoprire la grande quantità di beni che questo sito mette a disposizione, e tutto per soddisfare il maggior numero di clienti possibili!<br/>
-                    Vedrai inoltre, nel catalogo rapido, una serie di oggetti che potrebbero interessarti!<br/>
-                    Se hai intenzione di acquistare, sei invitato a raggiungere <a href='cliente.html'>questa pagina</a>!
-                </p>
+                <section>
+                    <h3 id="venditore">
+                        Per il venditore
+                    </h3>
+                    <p>
+                        Non hai più bisogno di un oggetto e vuoi guadagnarci?<br/>
+                        Allora questa è la sezione giusta!<br/>
+                        Nell'apposito form potrai specificare cosa hai intenzione di vendere, le sue caratteristiche che ritieni più importanti, il prezzo e in che quantità desideri vendere! <br/>
+                        Se ti interessa mettere in vendita qualcosa che non ti serve più visita pure <a href='venditore.html'>questa pagina</a>!
+                    </p>
+                </section>
+                <section>
+                    <h3 id="cliente">
+                        Per il cliente
+                    </h3>
+                    <p>
+                        Ti interessa qualcosa? Bene!<br/>
+                        Avrai la possibilità di scoprire la grande quantità di beni che questo sito mette a disposizione, e tutto per soddisfare il maggior numero di clienti possibili!<br/>
+                        Vedrai inoltre, nel catalogo rapido, una serie di oggetti che potrebbero interessarti!<br/>
+                        Se hai intenzione di acquistare, sei invitato a raggiungere <a href='cliente.html'>questa pagina</a>!
+                    </p>
+                </section>
             </section>
         </article>
     </body>
