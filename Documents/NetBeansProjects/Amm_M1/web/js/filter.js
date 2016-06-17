@@ -74,9 +74,9 @@ $(document).ready(function (){
                     input.setAttribute("type", "submit");
                     input.setAttribute("name", "Cart");
                     input.setAttribute("value", "Aggiungi al carrello");
-                    input.className += " logout";
                     form.appendChild(input);
                     td.appendChild(form);
+                    td.className+= " cart";
                     tr.appendChild(td);
                     
                     if(i%2===0){

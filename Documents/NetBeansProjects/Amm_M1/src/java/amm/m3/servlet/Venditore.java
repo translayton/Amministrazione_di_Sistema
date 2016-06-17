@@ -7,6 +7,7 @@ package amm.m3.servlet;
 
 import amm.m3.Customer;
 import amm.m3.Item;
+import amm.m3.ItemFactory;
 import amm.m3.Seller;
 import amm.m3.User;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -132,9 +134,14 @@ public class Venditore extends HttpServlet {
             else{
                 request.setAttribute("desc", itemDesc);
             }
+            
+            User u = (User)session.getAttribute("user");
+            if(u!=null && u instanceof Seller){
+                request.setAttribute("itemList", ((Seller)u).getItemList());
+            }
         }
         else if(request.getParameter("Back") != null){
-            Seller u = (Seller)session.getAttribute("user");
+            User u = (User)session.getAttribute("user");
             isEditing = Boolean.parseBoolean(request.getParameter("isEditing"));
             
             if(!isEditing){
@@ -144,7 +151,7 @@ public class Venditore extends HttpServlet {
                     Item item = new Item(request.getParameter("name"), editItem, request.getParameter("image"), request.getParameter("desc"), 96, 96, 
                             Integer.parseInt(request.getParameter("amount")), Double.parseDouble(request.getParameter("price")));
 
-                    u.addItem(item);
+                    ((Seller)u).addItem(item);
 
                     try{
                         Connection con = (Connection) DriverManager.getConnection("jdbc:derby://localhost:1527/ammdb", "milestone4", "milestone4");
@@ -201,17 +208,21 @@ public class Venditore extends HttpServlet {
                     e.printStackTrace();
                 }
             
-                u.setItem(editItem, item);
+                ((Seller)u).setItem(editItem, item);
             }
             
             itemSelled = false;
             isEditing = false;
-            request.setAttribute("itemList", u.getItemList());
+            request.setAttribute("itemList", ((Seller)u).getItemList());
         }
         else if(request.getParameter("Edit")!=null){
             isEditing = true;
             itemSelled = false;
             editItem = Integer.parseInt(request.getParameter("editItem"));
+            User u = (User)session.getAttribute("user");
+            if(u!=null && u instanceof Seller){
+                request.setAttribute("itemList", ((Seller)u).getItemList());
+            }
         }
         else if(request.getParameter("Remove")!=null){
             itemSelled = false;
@@ -228,13 +239,19 @@ public class Venditore extends HttpServlet {
                 PreparedStatement stmt = con.prepareStatement(sql);
 
                 Integer n = stmt.executeUpdate();
-		System.out.print("rows" + n);
+
 		stmt.close();
 		con.close();
             }catch(SQLException e){
 	        e.printStackTrace();
             }
         }
+        
+        ArrayList<Item> itemList = (ArrayList<Item>)request.getAttribute("itemList");
+        User user = (User)session.getAttribute("user");
+        if((itemList==null || itemList.isEmpty()) && user != null && user instanceof Seller){
+	    request.setAttribute("itemList", ((Seller)user).getItemList());
+	}
         
         request.setAttribute("editItem", editItem);
         request.setAttribute("isEditing", isEditing);

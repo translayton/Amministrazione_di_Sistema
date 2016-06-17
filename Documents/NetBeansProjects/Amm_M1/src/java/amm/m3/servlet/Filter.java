@@ -51,7 +51,7 @@ public class Filter extends HttpServlet {
 		    ArrayList<Item> items;
 		    if(!filter.isEmpty())   items = ItemFactory.getSearchedItemList(filter);
 		    else items = ItemFactory.getItemList();
-		    System.out.print("Filter" + items.size());
+                    
 		    request.setAttribute("itemList", items);
 		    response.setContentType("application/json");
 		    response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");

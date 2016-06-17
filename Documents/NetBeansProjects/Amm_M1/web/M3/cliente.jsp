@@ -75,10 +75,10 @@
                                 <td><img alt="${item.getImgAlt()}" src="M3/${item.getImgName()}" width="${item.getImgWidth()}" height="${item.getImgHeight()}"/></td>
                                 <td>${item.getAmount()}</td>
                                 <td>${item.getPrice()}</td>
-                                <td>
+                                <td class="cart">
                                     <form action="cliente.html" method="post">
                                         <input type="hidden" name="obj" value="${itemList.indexOf(item)}">
-                                        <input type="submit" class="logout" name="Cart" value="Aggiungi al carrello"/>
+                                        <input type="submit" name="Cart" value="Aggiungi al carrello"/>
                                     </form>
                                 </td>
                             </tr>
@@ -116,10 +116,10 @@
                     <input type="submit" name="Buy" class="client" value="Compra oggetto"/>
                 </form>
                 <c:if test="${lowBudget && !selled}">
-                    <p class='center'><strong>Denaro insufficente!</strong></p>
+                    <p class='info'><strong>Denaro insufficente!</strong></p>
                 </c:if>
                 <c:if test="${!lowBudget && selled}">
-                    <p class='center'>Acquisto avvenuto con successo!</p>       
+                    <p class='info'>Acquisto avvenuto con successo!</p>       
                 </c:if> 
             </c:if>
         </c:if>

@@ -39,7 +39,7 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession session = request.getSession();
-        
+        session.setMaxInactiveInterval(-1);
         
         if(request.getParameter("Submit") != null){
             

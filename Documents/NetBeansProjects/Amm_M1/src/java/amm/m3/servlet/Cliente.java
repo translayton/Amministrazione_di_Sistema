@@ -89,6 +89,8 @@ public class Cliente extends HttpServlet {
 		    }
 		}
 		
+                System.out.print(seller);
+                
 		id++;
 		String sql = "";
 		
@@ -108,7 +110,7 @@ public class Cliente extends HttpServlet {
 		
 		Double wallet = customer.getWallet().getAmount();
 		if( wallet >= thisItem.getPrice()){
-		    request.setAttribute("selled", true); System.out.print(seller);
+		    request.setAttribute("selled", true);
 		    customer.addToWallet(-thisItem.getPrice());
 		    Integer index = User.userList.indexOf(customer) + 1;
 		    sql = "update UserTable set money = " + customer.getWallet().getAmount() + " where id = " + index;

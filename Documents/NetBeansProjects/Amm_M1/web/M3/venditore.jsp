@@ -67,13 +67,13 @@
                                 </c:if>
                                 <tr class="${class}">
                                     <td>${item.getName()}</td>
-                                    <td>
+                                    <td class="cart">
                                         <form action="venditore.html" method="post">
                                             <input type="hidden" name="editItem" value="${itemList.indexOf(item)}">
                                             <input type="submit" class="logout" name="Edit" value="Modifica"/>
                                         </form>
                                     </td>
-                                    <td>
+                                    <td class="cart">
                                         <form action="venditore.html" method="post">
                                             <input type="hidden" name="removeItem" value="${itemList.indexOf(item)}">
                                             <input type="submit" class="logout" name="Remove" value="Rimuovi"/>

@@ -21,6 +21,9 @@ public class Seller extends User{
     }
     
     public ArrayList<Item> getItemList(){
+        if(this.itemList == null){
+            this.itemList = new ArrayList<>();
+        }
         return this.itemList;
     }
     
