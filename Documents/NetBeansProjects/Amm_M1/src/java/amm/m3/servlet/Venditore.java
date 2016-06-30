@@ -52,7 +52,7 @@ public class Venditore extends HttpServlet {
             request.getRequestDispatcher("M3/login.jsp").forward(request, response);
             return;
         }
-        else if(session.getAttribute("user") == null || session.getAttribute("user") instanceof Customer){
+        else if(session.getAttribute("user") == null ||  !(session.getAttribute("user") instanceof Seller)){
             request.setAttribute("authError", true);
             session.invalidate();
             request.getRequestDispatcher("M3/venditore.jsp").forward(request, response);

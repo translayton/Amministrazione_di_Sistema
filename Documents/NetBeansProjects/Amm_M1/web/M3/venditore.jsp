@@ -15,11 +15,8 @@
         <c:if test="${!authError}">
             <title>Venditore</title>
         </c:if>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="Riccardo Locci">
+        <jsp:include page= "meta.jsp" />
         <meta name="keywords" content="venditore">
-        <link href="M3/style.css" rel="stylesheet" type="text/css" media="screen">
     </head>
     <body>
         <nav>

@@ -10,11 +10,8 @@
 <html>
     <head>
         <title>Login</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="Riccardo Locci">
+        <jsp:include page= "meta.jsp" />
         <meta name="keywords" content="login">
-        <link href="M3/style.css" rel="stylesheet" type="text/css" media="screen">
     </head>
     <body>
         <nav>

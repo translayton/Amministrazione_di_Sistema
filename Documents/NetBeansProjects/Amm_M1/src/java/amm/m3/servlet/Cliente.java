@@ -50,7 +50,7 @@ public class Cliente extends HttpServlet {
             request.getRequestDispatcher("M3/login.jsp").forward(request, response);
             return;
         }
-        else if(session.getAttribute("user") == null || session.getAttribute("user") instanceof Seller){
+        else if(session.getAttribute("user") == null || !(session.getAttribute("user") instanceof Customer)){
             request.setAttribute("authError", true);
             session.invalidate();
             request.getRequestDispatcher("M3/cliente.jsp").forward(request, response);
