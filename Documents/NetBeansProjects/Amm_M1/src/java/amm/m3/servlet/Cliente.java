@@ -43,7 +43,7 @@ public class Cliente extends HttpServlet {
         Item thisItem;
         
 	if(Item.itemList == null || Item.itemList.isEmpty()){
-	    request.setAttribute("itemList", ItemFactory.getItemList());
+	    request.setAttribute("itemList", ItemFactory.getInstance().getItemList());
 	}
         
         if(session == null || session.getAttribute("loggedIn") == null || !((Boolean)session.getAttribute("loggedIn"))){

@@ -55,7 +55,7 @@ public class Login extends HttpServlet {
                     if(u.getUsername().equals(username)){
                         if(u.getPassword().equals(password)){
                             session.setAttribute("loggedIn", true);
-                            ArrayList<Item> itemList = ItemFactory.getItemList();
+                            ArrayList<Item> itemList = ItemFactory.getInstance().getItemList();
                             
                             if(u instanceof Seller) {
                                 session.setAttribute("user", (Seller) u);

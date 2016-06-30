@@ -38,10 +38,10 @@ INSERT INTO UserTable (id, name, surname, username, password, money, isSeller)
 VALUES (default, 'Demetra', 'Fini', 'demfi89', 'customer2', 0.0, false);
 
 INSERT INTO UserTable (id, name, surname, username, password, money, isSeller)
-VALUES (default, 'Enrico', 'Righi', 'enri75', 'seller1', 0.0, true);
+VALUES (default, 'Enrico', 'Righi', 'enri75', 'seller1', 2000.0, true);
 
 INSERT INTO UserTable (id, name, surname, username, password, money, isSeller)
-VALUES (default, 'Livia', 'Nave', 'lina83', 'seller1', 0.0, true);
+VALUES (default, 'Livia', 'Nave', 'lina83', 'seller1', 2000.0, true);
 
 INSERT INTO ItemTable (id, sellerId, name, imgName, imgAlt, imgHeight, imgWidth, amount, price)
 VALUES (default, 3, 'Aspirapolvere', 'aspirapolvere.jpg', 'Foto aspirapolvere', 96, 96, 3, 149.99);

@@ -30,7 +30,7 @@ public class ItemFactory {
         return instance;
     }
     
-    public static ArrayList<Item> getItemList(){
+    public ArrayList<Item> getItemList(){
 	Connection con = null;
         Statement stmt = null;
         ResultSet itemSet = null;
@@ -38,7 +38,7 @@ public class ItemFactory {
         try{
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
             
-            con = (Connection) DriverManager.getConnection("jdbc:derby://localhost:1527/ammdb", "milestone4", "milestone4");
+            con = (Connection) DriverManager.getConnection(connectionString, "milestone4", "milestone4");
             stmt = con.createStatement();
             
             String sql = "select count(*) from ItemTable";
@@ -106,7 +106,7 @@ public class ItemFactory {
     }
     
     public static ArrayList<Item> getSearchedItemList(String filter){
-	ArrayList<Item> items = getItemList();
+	ArrayList<Item> items = getInstance().getItemList();
 	ArrayList<Item> searchedItems = new ArrayList<>();
 
 	if(items!=null){

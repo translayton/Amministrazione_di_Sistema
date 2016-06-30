@@ -50,7 +50,7 @@ public class Filter extends HttpServlet {
 		if(obj!=null && obj instanceof Customer && (Boolean)session.getAttribute("loggedIn")){
 		    ArrayList<Item> items;
 		    if(!filter.isEmpty())   items = ItemFactory.getSearchedItemList(filter);
-		    else items = ItemFactory.getItemList();
+		    else items = ItemFactory.getInstance().getItemList();
                     
 		    request.setAttribute("itemList", items);
 		    response.setContentType("application/json");

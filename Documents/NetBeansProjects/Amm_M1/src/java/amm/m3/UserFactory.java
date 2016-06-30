@@ -35,7 +35,7 @@ public class UserFactory {
          try{
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
             
-            Connection con = (Connection) DriverManager.getConnection("jdbc:derby://localhost:1527/ammdb", "milestone4", "milestone4");
+            Connection con = (Connection) DriverManager.getConnection(connectionString, "milestone4", "milestone4");
             Statement stmt = con.createStatement();
             
             String sql = "select * from UserTable";
