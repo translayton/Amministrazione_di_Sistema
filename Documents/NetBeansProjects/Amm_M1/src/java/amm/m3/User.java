@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * @author utente
  */
 public class User {
+    private Integer id;
     private String name;
     private String surname;
     private String username;
@@ -19,12 +20,15 @@ public class User {
     private Money wallet;
     public static ArrayList<User> userList;
     
-    public User(String name, String surname, String username, String password, double money){
+    public User(int id, String name, String surname, String username, String password, double money){
+	this.id = id;
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.password = password;
         this.wallet = new Money(money);
+	if(userList==null) initList();
+	userList.add(this);
     }
 
     /**
@@ -88,6 +92,7 @@ public class User {
     }
     
     public static void userListAdd(User user){
+	if(userList == null) initList();
         userList.add(user);
     }
     
@@ -96,7 +101,13 @@ public class User {
     }
     
     public static User getUserById(int id){
-        return userList.get(id);
+        for(User u: userList){
+	    if(u.getId().equals(id)){
+		return u;
+	    }
+	}
+	
+	return null;
     }
 
     /**
@@ -115,5 +126,36 @@ public class User {
     
     public void addToWallet(double money){
 	this.wallet.addAmount(money);
+    }
+
+    /**
+     * @return the id
+     */
+    public Integer getId() {
+	return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+	this.id = id;
+    }
+    
+    public static void printUserList(){	
+	if(userList.isEmpty()) System.out.println("NESSUN USER");
+	for(User u : userList){
+	    System.out.println(u.getUsername());
+	}
+    }
+    
+    public static User getByUsername(String username){
+	if(userList == null) initList();
+	
+	for(User u: userList){
+	    if(u.name.equals(username)) return u;
+	}
+	
+	return null;
     }
 }

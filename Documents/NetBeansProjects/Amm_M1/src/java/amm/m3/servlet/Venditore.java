@@ -5,16 +5,11 @@
  */
 package amm.m3.servlet;
 
-import amm.m3.Customer;
 import amm.m3.Item;
 import amm.m3.ItemFactory;
 import amm.m3.Seller;
 import amm.m3.User;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -121,7 +116,7 @@ public class Venditore extends HttpServlet {
                 }
             }
             catch(NumberFormatException | NullPointerException e){
-                request.setAttribute("amountError", "L'oggetto deve avere un prezzo");
+                request.setAttribute("amountError", "L'oggetto deve avere una quantità numerica intera");
                 itemSelled = false;
             }
             
@@ -139,6 +134,7 @@ public class Venditore extends HttpServlet {
             if(u!=null && u instanceof Seller){
                 request.setAttribute("itemList", ((Seller)u).getItemList());
             }
+	    request.setAttribute("editItem", editItem);
         }
         else if(request.getParameter("Back") != null){
             User u = (User)session.getAttribute("user");
@@ -146,73 +142,22 @@ public class Venditore extends HttpServlet {
             
             if(!isEditing){
                 if(u != null && u instanceof Seller){
-		    editItem = Integer.parseInt(request.getParameter("editItem"));
 		    
-                    Item item = new Item(request.getParameter("name"), editItem, request.getParameter("image"), request.getParameter("desc"), 96, 96, 
-                            Integer.parseInt(request.getParameter("amount")), Double.parseDouble(request.getParameter("price")));
-
-                    ((Seller)u).addItem(item);
-
-                    try{
-                        Connection con = (Connection) DriverManager.getConnection("jdbc:derby://localhost:1527/ammdb", "milestone4", "milestone4");
-
-                        String sql = "insert into ItemTable (id, sellerid, name, imgname, imgalt, imgheight, imgwidth, amount, price) " +
-                                    "values (default, ?, ?, ?, ?, ?, ?, ?, ?)";
-                        PreparedStatement stmt = con.prepareStatement(sql);
-
-                        stmt.setInt(1, User.userList.indexOf(u)+1);
-                        stmt.setString(2, item.getName());
-                        stmt.setString(3, item.getImgName());
-                        stmt.setString(4, item.getImgAlt());
-                        stmt.setInt(5, item.getImgHeight());
-                        stmt.setInt(6, item.getImgWidth());
-                        stmt.setInt(7, item.getAmount());
-                        stmt.setDouble(8, item.getPrice());
-
-                        stmt.executeUpdate();
-			
-			stmt.close();
-			con.close();
-                    }catch(SQLException e){
-                        e.printStackTrace();
-                    }
+                    ItemFactory.getInstance().addNewItem((Seller)u, request.getParameter("name"), u.getId(), 
+			    request.getParameter("image"), request.getParameter("desc"), 96, 96, 
+                            Integer.parseInt(request.getParameter("amount")), Double.parseDouble(request.getParameter("price")));  
                 }
             }
             else{
                 editItem = Integer.parseInt(request.getParameter("editItem"));
 
-                Item item = new Item(request.getParameter("name"), editItem, request.getParameter("image"), request.getParameter("desc"), 96, 96, 
+                ItemFactory.getInstance().editExistingItem((Seller)u, request.getParameter("name"), editItem, u.getId(), request.getParameter("image"), request.getParameter("desc"), 96, 96, 
                     Integer.parseInt(request.getParameter("amount")), Double.parseDouble(request.getParameter("price")));
-
-                try{
-                    Connection con = (Connection) DriverManager.getConnection("jdbc:derby://localhost:1527/ammdb", "milestone4", "milestone4");
-                    Integer itemIndex = Item.itemList.indexOf(((Seller)u).getItemById(editItem)) + 1;
-                    
-                    String sql = "update ItemTable set name = ?, imgname = ?, imgalt = ?, imgheight = ?, imgwidth = ?, amount = ?, price = ? " + 
-                            "where id = " + itemIndex;
-                    PreparedStatement stmt = con.prepareStatement(sql);
-                    
-                    stmt.setString(1, item.getName());
-                    stmt.setString(2, item.getImgName());
-                    stmt.setString(3, item.getImgAlt());
-                    stmt.setInt(4, item.getImgHeight());
-                    stmt.setInt(5, item.getImgWidth());
-                    stmt.setInt(6, item.getAmount());
-                    stmt.setDouble(7, item.getPrice());
-                    
-                    Integer n = stmt.executeUpdate();
-		    
-		    stmt.close();
-		    con.close();
-                }catch(SQLException e){
-                    e.printStackTrace();
-                }
-            
-                ((Seller)u).setItem(editItem, item);
             }
             
             itemSelled = false;
             isEditing = false;
+	    request.setAttribute("editItem", editItem);
             request.setAttribute("itemList", ((Seller)u).getItemList());
         }
         else if(request.getParameter("Edit")!=null){
@@ -223,37 +168,22 @@ public class Venditore extends HttpServlet {
             if(u!=null && u instanceof Seller){
                 request.setAttribute("itemList", ((Seller)u).getItemList());
             }
+	    request.setAttribute("editItem", editItem);
         }
         else if(request.getParameter("Remove")!=null){
             itemSelled = false;
             Seller u = (Seller)session.getAttribute("user");
             Integer removeItem = Integer.parseInt(request.getParameter("removeItem"));
-            u.removeItem(removeItem);
-            request.setAttribute("itemList", u.getItemList());
-            
-            try{
-		Connection con = (Connection) DriverManager.getConnection("jdbc:derby://localhost:1527/ammdb", "milestone4", "milestone4");
-                Integer itemIndex = Item.itemList.indexOf(u.getItemById(removeItem)) + 1;
-                    
-                String sql = "delete from ItemTable where id = " + itemIndex;
-                PreparedStatement stmt = con.prepareStatement(sql);
-
-                Integer n = stmt.executeUpdate();
-
-		stmt.close();
-		con.close();
-            }catch(SQLException e){
-	        e.printStackTrace();
-            }
+   
+            ItemFactory.getInstance().removeItem(u, removeItem);
+	    
+	    request.setAttribute("itemList", u.getItemList());
         }
-        
-        ArrayList<Item> itemList = (ArrayList<Item>)request.getAttribute("itemList");
-        User user = (User)session.getAttribute("user");
-        if((itemList==null || itemList.isEmpty()) && user != null && user instanceof Seller){
-	    request.setAttribute("itemList", ((Seller)user).getItemList());
+	else{
+	    itemSelled = false;
+	    request.setAttribute("itemList", ((Seller)session.getAttribute("user")).getItemList());
 	}
-        
-        request.setAttribute("editItem", editItem);
+
         request.setAttribute("isEditing", isEditing);
         request.setAttribute("itemSelled", itemSelled);
         request.getRequestDispatcher("M3/venditore.jsp").forward(request, response);

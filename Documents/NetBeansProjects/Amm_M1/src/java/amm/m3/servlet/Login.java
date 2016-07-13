@@ -50,31 +50,33 @@ public class Login extends HttpServlet {
             request.removeAttribute("passwordError");
             
             if(username != null && password != null){
-                ArrayList<User> userList = UserFactory.getInstance().getUserList();
-                for(User u : userList){
-                    if(u.getUsername().equals(username)){
-                        if(u.getPassword().equals(password)){
-                            session.setAttribute("loggedIn", true);
-                            ArrayList<Item> itemList = ItemFactory.getInstance().getItemList();
-                            
+		User u = UserFactory.getInstance().getUser(username);
+		
+		if(u != null){
+		    if(u.getPassword().equals(password)){
+                            session.setAttribute("loggedIn", true); 
                             if(u instanceof Seller) {
+				ArrayList<Item> itemList = ItemFactory.getInstance().getUserItemList((Seller)u);
                                 session.setAttribute("user", (Seller) u);
-                                request.setAttribute("itemList", ((Seller)u).getItemList());
+                                request.setAttribute("itemList", itemList);
                                 request.getRequestDispatcher("M3/venditore.jsp").forward(request, response);  
                             }
                             else{
+				ArrayList<Item> itemList = ItemFactory.getInstance().getItemList();
                                 session.setAttribute("user", (Customer) u);
                                 request.setAttribute("itemList", itemList);
                                 request.getRequestDispatcher("M3/cliente.jsp").forward(request, response);  
                             }
-                            return;
-                        }
-                        request.setAttribute("passwordError", "Password errata");
-                        request.getRequestDispatcher("M3/login.jsp").forward(request, response);
-                        return;
                     }
-                }
-                request.setAttribute("usernameError", "Utente non registrato");
+		    else{
+			request.setAttribute("passwordError", "Password errata");
+			request.getRequestDispatcher("M3/login.jsp").forward(request, response);
+		    }
+                    return;
+		}
+		else{
+		    request.setAttribute("usernameError", "Utente non registrato");
+		}
             }
             
             if(username.isEmpty()) request.setAttribute("usernameError", "Il campo Username non può essere vuoto");

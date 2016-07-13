@@ -46,8 +46,8 @@ public class Filter extends HttpServlet {
 	    String filter = request.getParameter("q");
 	    String cmd = request.getParameter("cmd");
 	    
-	    if(cmd!=null && cmd.equals("filter")){
-		if(obj!=null && obj instanceof Customer && (Boolean)session.getAttribute("loggedIn")){
+	    if(obj!=null && obj instanceof Customer && (Boolean)session.getAttribute("loggedIn")){
+		if(cmd!=null && cmd.equals("filter")){
 		    ArrayList<Item> items;
 		    if(!filter.isEmpty())   items = ItemFactory.getSearchedItemList(filter);
 		    else items = ItemFactory.getInstance().getItemList();

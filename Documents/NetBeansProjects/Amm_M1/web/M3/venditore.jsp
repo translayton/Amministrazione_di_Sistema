@@ -22,7 +22,7 @@
         <nav>
             <ul class="summary">
                 <c:if test="${user != null}">
-                    <li>
+                    <li class="sum">
                         <form action="venditore.html" method="post">
                             <input type="submit" name="Logout" class="logout" value="${user.getName()} (Logout)"/>
                         </form>
@@ -66,13 +66,13 @@
                                     <td>${item.getName()}</td>
                                     <td class="cart">
                                         <form action="venditore.html" method="post">
-                                            <input type="hidden" name="editItem" value="${itemList.indexOf(item)}">
+                                            <input type="hidden" name="editItem" value="${item.getId()}">
                                             <input type="submit" class="logout" name="Edit" value="Modifica"/>
                                         </form>
                                     </td>
                                     <td class="cart">
                                         <form action="venditore.html" method="post">
-                                            <input type="hidden" name="removeItem" value="${itemList.indexOf(item)}">
+                                            <input type="hidden" name="removeItem" value="${item.getId()}">
                                             <input type="submit" class="logout" name="Remove" value="Rimuovi"/>
                                         </form>
                                     </td>

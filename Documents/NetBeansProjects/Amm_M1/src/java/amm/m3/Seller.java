@@ -15,8 +15,8 @@ public class Seller extends User{
     
     private ArrayList<Item> itemList;
     
-    public Seller(String name, String surname, String username, String password, double money){
-        super(name, surname, username, password, money);
+    public Seller(int id, String name, String surname, String username, String password, double money){
+        super(id, name, surname, username, password, money);
         itemList = new ArrayList<>();
     }
     
@@ -27,23 +27,38 @@ public class Seller extends User{
         return this.itemList;
     }
     
-    public Item getItemById(int id){
-        return this.itemList.get(id);
+    public Item getItemByIndex(int index){
+        return this.itemList.get(index);
     }
     
     public void addItem(Item item){
-        this.itemList.add(item);
-        Item.itemList.add(item);
+        if(!this.itemList.contains(item)) this.itemList.add(item);
+        if(!Item.itemList.contains(item)) Item.itemList.add(item);
     }
     
-    public void setItem(int index, Item item){
-        int i = Item.itemList.indexOf(this.itemList.get(index));
-        Item.itemList.set(i, item);
-        this.itemList.set(index, item);
+    public void setItem(Item item){
+	for(int i=0; i<this.itemList.size(); i++){
+	    if(this.itemList.get(i).getId().equals(item.getId())){
+		this.itemList.set(i, item); 
+		return;
+	    }
+	} 
     }
     
     public void removeItem(int id){
-        Item.itemList.remove(this.itemList.get(id));
-        this.itemList.remove(id);
+	for(int i=0; i<this.itemList.size(); i++){
+	    if(this.itemList.get(i).getId().equals(id)){
+		Item item = this.itemList.remove(i);
+		Item.itemList.remove(item);
+		return;
+	    }
+	}   
+    }
+    
+    public void printList(){	
+	if(itemList.isEmpty()) System.out.println("VUOTA");
+	for(Item i : itemList){
+	    System.out.print(getUsername() + " -> " + i + "\n\n\n");
+	}
     }
 }

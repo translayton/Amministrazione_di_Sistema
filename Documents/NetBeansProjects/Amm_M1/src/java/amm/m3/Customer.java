@@ -11,7 +11,7 @@ package amm.m3;
  */
 public class Customer extends User{
     
-    public Customer(String name, String surname, String username, String password, double money){
-        super(name, surname, username, password, money);
+    public Customer(int id, String name, String surname, String username, String password, double money){
+        super(id, name, surname, username, password, money);
     } 
 }

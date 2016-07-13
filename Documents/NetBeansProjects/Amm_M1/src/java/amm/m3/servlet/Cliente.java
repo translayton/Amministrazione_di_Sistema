@@ -13,12 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import amm.m3.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 /**
  *
@@ -40,7 +34,6 @@ public class Cliente extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession session = request.getSession(false);
-        Item thisItem;
         
 	if(Item.itemList == null || Item.itemList.isEmpty()){
 	    request.setAttribute("itemList", ItemFactory.getInstance().getItemList());
@@ -62,78 +55,21 @@ public class Cliente extends HttpServlet {
             return;
         }
         else if(request.getParameter("Cart") != null){
-            thisItem = Item.itemList.get(Integer.parseInt(request.getParameter("obj")));
+            Item thisItem = Item.getItemById(Integer.parseInt(request.getParameter("obj")));
             request.setAttribute("thisItem", thisItem);
 	    request.setAttribute("itemList", Item.itemList);
         }
         else if(request.getParameter("Buy") != null){
-	    try {
-		Seller seller = null;
-		Customer customer = (Customer)session.getAttribute("user");
-		Integer id = Integer.parseInt(request.getParameter("obj"));
-		thisItem = Item.itemList.get(id);
-		request.setAttribute("thisItem", thisItem);
-		Connection con = (Connection) DriverManager.getConnection("jdbc:derby://localhost:1527/ammdb", "milestone4", "milestone4");
-		con.setAutoCommit(false);
-		
-		Statement stmt = con.createStatement();
-		
-		Integer amount = thisItem.getAmount();
-		thisItem.setAmount(--amount);
-		
-		for(User user: User.userList){
-		    if(user instanceof Seller){
-			if(((Seller)user).getItemList().contains(thisItem)){
-			    seller = (Seller)user;	
-			}
-		    }
-		}
-		
-                System.out.print(seller);
-                
-		id++;
-		String sql = "";
-		
-		if(amount == 0){
-		    Item.itemList.remove(thisItem);
-		    
-		    seller.getItemList().remove(thisItem);
-		    
-		    sql = "delete from ItemTable where id = " + id;
-		    stmt.executeUpdate(sql);
-		}
-		else{
-		    
-		    sql = "update ItemTable set amount = " + amount + " where id = " + id;
-		    stmt.executeUpdate(sql);
-		}
-		
-		Double wallet = customer.getWallet().getAmount();
-		if( wallet >= thisItem.getPrice()){
-		    request.setAttribute("selled", true);
-		    customer.addToWallet(-thisItem.getPrice());
-		    Integer index = User.userList.indexOf(customer) + 1;
-		    sql = "update UserTable set money = " + customer.getWallet().getAmount() + " where id = " + index;
-		    stmt.executeUpdate(sql);
-		    seller.addToWallet(thisItem.getPrice());
-		    index = User.userList.indexOf(seller) + 1;
-		    sql = "update UserTable set money = " + seller.getWallet().getAmount() + " where id = " + index;
-		    stmt.executeUpdate(sql);
-		    con.commit();
-		}
-		else{
-		    request.setAttribute("lowBudget", true);
-		    con.rollback();
-		}
-		
-		stmt.close();
-		con.close();
-	    } catch (SQLException ex) {
-		Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-	    }
+	    Customer customer = (Customer)session.getAttribute("user");	
+	    Integer id = Integer.parseInt(request.getParameter("obj"));
+	    ItemFactory.getInstance().sellItem(customer, id, request);
+	    request.setAttribute("thisItem", Item.getItemById(id));
         }
 	else if(request.getParameter("Back")!=null){
 	    request.setAttribute("itemList", Item.itemList);
+	}
+	else{
+	    request.setAttribute("itemList", ItemFactory.getInstance().getItemList());
 	}
         
         request.getRequestDispatcher("M3/cliente.jsp").forward(request, response);

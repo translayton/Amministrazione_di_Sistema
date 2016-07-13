@@ -20,7 +20,7 @@
         <nav>
             <ul class="summary">
                 <c:if test="${user != null}">
-                    <li>
+                    <li class="sum">
                         <form action="cliente.html" method="post">
                             <input type="submit" name="Logout" class="logout" value="${user.getName()} (Logout)"/>
                         </form>
@@ -74,7 +74,7 @@
                                 <td>${item.getPrice()}</td>
                                 <td class="cart">
                                     <form action="cliente.html" method="post">
-                                        <input type="hidden" name="obj" value="${itemList.indexOf(item)}">
+                                        <input type="hidden" name="obj" value="${item.getId()}">
                                         <input type="submit" name="Cart" value="Aggiungi al carrello"/>
                                     </form>
                                 </td>
@@ -109,7 +109,7 @@
                     <input type="submit" name="Back" class="client" value="Indietro"/>
                 </form>
                 <form action="cliente.html" method="post">
-                    <input type="hidden" name="obj" value="${itemList.indexOf(thisItem)}">
+                    <input type="hidden" name="obj" value="${thisItem.getId()}">
                     <input type="submit" name="Buy" class="client" value="Compra oggetto"/>
                 </form>
                 <c:if test="${lowBudget && !selled}">
